@@ -80,47 +80,54 @@ Batch: B2
 ================================================================================
                     LAB PRACTICAL EXAMINATION WRITE-UP (5 MARKS)
 ================================================================================
--->
 
-# Practical Examination Write-Up: Experiment 7
+1. AIM:
+   To capture, inspect, and comparatively analyze Transmission Control Protocol
+   (TCP) and User Datagram Protocol (UDP) packets at the Transport Layer using
+   Wireshark Packet Analyzer on Linux/Ubuntu.
 
-### 1. AIM
-To capture, inspect, and comparatively analyze Transmission Control Protocol (TCP) and User Datagram Protocol (UDP) packets at the Transport Layer using Wireshark Packet Analyzer.
+2. THEORY:
+   - Transport Layer Role: Provides logical process-to-process communication
+     using 16-bit port numbers (0 to 65535).
+   - TCP Characteristics & Header:
+     * Header size: 20 to 60 bytes (variable length via Options).
+     * Control Flags: SYN, ACK, FIN, RST, PSH, URG.
+     * 3-Way Handshake:
+       1. Client -> Server: [SYN], Seq = x
+       2. Server -> Client: [SYN, ACK], Seq = y, Ack = x + 1
+       3. Client -> Server: [ACK], Seq = x + 1, Ack = y + 1
+     * Guaranteed reliable delivery through sequence numbers, cumulative ACKs,
+       and sliding window flow control.
+   - UDP Characteristics & Header:
+     * Fixed 8-byte header: Source Port, Destination Port, Length, Checksum.
+     * Connectionless, lightweight, best-effort delivery without handshakes or ACKs.
 
-### 2. THEORY
-* **Transport Layer Role:** Provides logical process-to-process communication between application processes running on different hosts. Uses 16-bit port numbers (0 to 65535) for multiplexing and demultiplexing.
-* **TCP Protocol Structure & Mechanisms:**
-  - **Header Size:** 20 to 60 Bytes (variable length depending on Options field).
-  - **Control Flags (6 bits minimum):** `URG`, `ACK`, `PSH`, `RST`, `SYN`, `FIN`.
-  - **Connection Establishment (3-Way Handshake):**
-    1. Client $
-ightarrow$ Server: `[SYN]`, Seq = Initial Seq Number ($ISN_c$).
-    2. Server $
-ightarrow$ Client: `[SYN, ACK]`, Seq = $ISN_s$, Ack = $ISN_c + 1$.
-    3. Client $
-ightarrow$ Server: `[ACK]`, Seq = $ISN_c + 1$, Ack = $ISN_s + 1$.
-  - **Reliability:** Maintained through Sequence Numbers, Acknowledgments, Retransmission Timers (RTO), and Checksum.
-  - **Flow Control:** Sliding Window mechanism via Advertised Window Size field.
-* **UDP Protocol Structure & Mechanisms:**
-  - **Header Size:** Fixed 8 Bytes (minimal protocol overhead).
-  - **Fields:** Source Port (16-bit), Destination Port (16-bit), Length (16-bit), Checksum (16-bit).
-  - **Operation:** Connectionless, best-effort datagram service without ordering, acknowledgment, flow control, or congestion control.
+3. EXPLANATION / PROCEDURE:
+   - Step 1: Start Wireshark packet capture on active Linux network interface.
+   - Step 2: Generate TCP traffic using curl -I http://google.com or running Exp-02/03.
+   - Step 3: Apply filter: tcp.flags.syn == 1 || tcp.port == 8080.
+   - Step 4: Inspect 3-way handshake segments, sequence/acknowledgment numbers,
+     window size, and connection teardown (FIN/ACK).
+   - Step 5: Generate UDP traffic using dig google.com or Exp-04/05.
+   - Step 6: Filter udp.port == 53 || udp.port == 8081 and inspect the 8-byte header.
 
-### 3. EXPLANATION / PROCEDURE
-1. **Packet Capture Setup:** Start capture in Wireshark on active network interface.
-2. **TCP Analysis:**
-   - In browser/terminal, access an HTTP/HTTPS website to initiate TCP traffic.
-   - Apply Wireshark filter: `tcp.flags.syn == 1`.
-   - Locate and examine the 3-Way Handshake sequence (`SYN` $
-ightarrow$ `SYN, ACK` $
-ightarrow$ `ACK`).
-   - Inspect Sequence Numbers (relative vs. raw), Acknowledgment Numbers, TCP Header Length (Data Offset), Window Size scaling, and MSS (Maximum Segment Size) in TCP Options.
-   - Inspect connection termination: locate `FIN` and `ACK` segments.
-3. **UDP Analysis:**
-   - Filter Wireshark capture with `udp`.
-   - Inspect a DNS or NTP datagram: note the compact 8-byte header structure without connection flags, sequence numbers, or window sizes.
-4. **Comparative Analysis:** Compare overhead, handshake latency, and packet header complexity between TCP and UDP captures.
+4. CONCLUSION:
+   Successfully inspected and compared Transport Layer protocols using Wireshark.
+   Validated TCP connection establishment, sequence numbering, and reliable delivery
+   mechanisms against UDP connectionless, lightweight datagram transmission.
 
-### 4. CONCLUSION
-Successfully inspected and compared Transport Layer protocols using Wireshark. Confirmed that TCP provides reliable, ordered data delivery at the expense of header overhead (20–60 bytes) and 3-way handshake latency, while UDP provides minimal header overhead (8 bytes) and low latency without delivery guarantees.
+5. UBUNTU / LINUX EXECUTION COMMANDS:
+   -----------------------------------------------------------------------------
+   * Launch Wireshark packet capture:
+     sudo wireshark &
+   * Filter TCP 3-Way Handshake & data:
+     tcp.flags.syn == 1 || tcp.port == 8080
+   * Filter UDP datagram traffic:
+     udp.port == 53 || udp.port == 8081
+   * Generate sample TCP traffic:
+     curl -I http://google.com
+   * Generate sample UDP traffic:
+     dig google.com
+   -----------------------------------------------------------------------------
+================================================================================
 -->

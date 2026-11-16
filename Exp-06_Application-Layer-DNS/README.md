@@ -82,45 +82,54 @@ Response Header: Contains Answer RRs (Resource Records), TTL (Time to Live), and
 ================================================================================
                     LAB PRACTICAL EXAMINATION WRITE-UP (5 MARKS)
 ================================================================================
--->
 
-# Practical Examination Write-Up: Experiment 6
+1. AIM:
+   To analyze Application Layer Domain Name System (DNS) protocol transactions
+   by performing forward and authoritative name lookups using CLI utility
+   commands (`nslookup`) and capturing/inspecting DNS packets using Wireshark.
 
-### 1. AIM
-To analyze Application Layer Domain Name System (DNS) protocol transactions by performing forward and authoritative name lookups using CLI utility commands (`nslookup`) and capturing/inspecting DNS query and response packets using Wireshark Packet Analyzer.
+2. THEORY:
+   - DNS Protocol: A distributed, hierarchical database system operating at the
+     Application Layer. Translates human-readable Fully Qualified Domain Names
+     (FQDN) into numerical IP addresses.
+   - Port & Transport: Uses UDP port 53 for standard lookups (fast, low overhead);
+     uses TCP port 53 for responses exceeding 512 bytes or zone transfers.
+   - Resource Record (RR) Types:
+     * A: Hostname to 32-bit IPv4 address.
+     * AAAA: Hostname to 128-bit IPv6 address.
+     * NS: Authoritative Name Server for the domain.
+     * CNAME: Canonical Name (alias to true domain name).
+     * MX: Mail Exchange server priority and address.
+   - DNS Packet Structure (12-byte header):
+     * Transaction ID (16 bits): Correlates query with response.
+     * Flags (16 bits): QR (0=Query, 1=Response), Opcode, AA (Authoritative Answer),
+       RD (Recursion Desired), RA (Recursion Available), RCODE.
+     * Question, Answer, Authority, and Additional RR count fields.
 
-### 2. THEORY
-* **DNS Architecture:** A distributed, hierarchical database system operating at the Application Layer that maps human-readable domain names (FQDN) into numerical IP addresses (IPv4/IPv6).
-* **Transport Port & Protocol:** Typically uses **UDP Port 53** for standard queries due to minimal overhead and fast response times; uses **TCP Port 53** when response payload exceeds 512 bytes (EDNS0 allows up to 4096 bytes) or during DNS zone transfers.
-* **DNS Hierarchy:**
-  `Root Domain (.)` $
-ightarrow$ `Top-Level Domain (TLD: .com, .org)` $
-ightarrow$ `Authoritative/Second-Level Domain (google.com)` $
-ightarrow$ `Subdomain (mail.google.com)`.
-* **Common Resource Record (RR) Types:**
-  - `A`: Maps hostname to 32-bit IPv4 address.
-  - `AAAA`: Maps hostname to 128-bit IPv6 address.
-  - `NS`: Identifies authoritative Name Servers for a domain.
-  - `CNAME`: Canonical Name (alias to another domain name).
-  - `MX`: Mail Exchange server records and priority metrics.
-  - `PTR`: Pointer Record for reverse DNS lookups (IP to domain).
-* **DNS Message Header Structure (12 Bytes):**
-  - **Transaction ID (16-bit):** Matches query with response.
-  - **Flags (16-bit):** QR bit (0 = Query, 1 = Response), Opcode (0 = Standard), AA (Authoritative Answer), TC (Truncation), RD (Recursion Desired), RA (Recursion Available), RCODE (Response Code: 0 = No Error, 3 = NXDOMAIN).
-  - **Counter Fields (16-bit each):** Number of Questions, Answer RRs, Authority RRs, Additional RRs.
+3. EXPLANATION / PROCEDURE:
+   - Step 1: Run nslookup google.com in Ubuntu terminal to query default DNS resolver.
+   - Step 2: Run nslookup -type=ns google.com to query authoritative name servers.
+   - Step 3: Launch Wireshark (sudo wireshark) and select active interface (e.g. eth0, wlan0).
+   - Step 4: Apply display filter: dns || udp.port == 53.
+   - Step 5: Execute query in terminal and observe captured frames in Wireshark.
+   - Step 6: Inspect Query header (QR=0, RD=1, QNAME, QTYPE=A) and Response header
+     (QR=1, RA=1, TTL, Answer RRs with resolved IP).
 
-### 3. EXPLANATION / PROCEDURE
-1. **CLI Lookup Execution:**
-   - Execute `nslookup google.com`: Queries local default DNS resolver; displays Non-authoritative Answer with resolved IPv4/IPv6 addresses.
-   - Execute `nslookup -type=ns bing.com`: Directly retrieves authoritative name server records (e.g., `ns1.msft.net`).
-2. **Wireshark Packet Capture:**
-   - Launch Wireshark and select active network interface (e.g., Wi-Fi or Ethernet).
-   - Set display filter: `dns` or `udp.port == 53`.
-   - Re-run `nslookup example.com` in terminal to trigger live packet exchange.
-3. **Packet Header Inspection:**
-   - **DNS Query Packet:** Verify Destination Port = 53, Flags = `0x0100` (Standard query with Recursion Desired = 1), Questions section contains QNAME = `example.com`, QTYPE = `A`.
-   - **DNS Response Packet:** Verify Source Port = 53, Transaction ID matches Query ID, Flags = `0x8180` (Response, Recursion Available = 1, No Error), Answer section displays resolved IP, Resource Record Type (`A`), Class (`IN`), and Time-To-Live (TTL in seconds).
+4. CONCLUSION:
+   Successfully performed domain name resolution using nslookup and analyzed DNS
+   application layer packets using Wireshark on Linux. Verified the 12-byte header
+   format, transaction ID matching, recursion flags, and resource record structure.
 
-### 4. CONCLUSION
-Successfully performed domain name resolution using `nslookup` and captured DNS application layer packets using Wireshark. Verified the 12-byte DNS header format, Transaction ID matching mechanism, Recursion Desired/Available flags, and Resource Record structure.
+5. UBUNTU / LINUX EXECUTION COMMANDS:
+   -----------------------------------------------------------------------------
+   * Run forward DNS lookup:
+     nslookup google.com
+   * Run authoritative name server lookup:
+     nslookup -type=ns google.com
+   * Launch Wireshark on Ubuntu:
+     sudo wireshark &
+   * Wireshark Display Filter:
+     dns || udp.port == 53
+   -----------------------------------------------------------------------------
+================================================================================
 -->

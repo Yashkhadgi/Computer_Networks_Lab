@@ -78,38 +78,63 @@ Batch: B2
 ================================================================================
                     LAB PRACTICAL EXAMINATION WRITE-UP (5 MARKS)
 ================================================================================
--->
 
-# Practical Examination Write-Up: Experiment 1
+1. AIM:
+   To study and identify fundamental computer networking hardware components
+   (NIC, Switch, Router, UTP CAT6 Cable) and demonstrate network diagnosis and
+   configuration using essential Linux CLI commands (`ping`, `traceroute`, `ip`,
+   `netstat`/`ss`, `nslookup`, `arp`).
 
-### 1. AIM
-To study and identify fundamental computer networking hardware components (NIC, Switch, Router, UTP CAT6 Cable) and demonstrate network diagnosis and configuration using essential CLI commands (`ping`, `tracert`, `ipconfig`, `netstat`, `nslookup`, `arp`).
+2. THEORY:
+   - Physical Layer (Layer 1):
+     * NIC (Network Interface Card): Interfaces host to transmission media; holds
+       a permanent 48-bit MAC address.
+     * UTP CAT6 Cable: 4 twisted copper pairs to eliminate electromagnetic
+       interference (EMI) and crosstalk; supports Gigabit Ethernet.
+   - Data Link Layer (Layer 2):
+     * Switch: Inspects incoming Ethernet frame headers, builds dynamic MAC address
+       tables, and forwards frames to the designated destination port (unicast).
+   - Network Layer (Layer 3):
+     * Router: Interconnects logically distinct IP subnets; determines optimal
+       forwarding paths across networks.
+   - Diagnostic Protocols & CLI Tools:
+     * ping: Uses ICMP Echo Request (Type 8) and Echo Reply (Type 0) to verify
+       IP connectivity, RTT, and packet loss.
+     * traceroute: Exploits IP Time-To-Live (TTL), incrementing TTL from 1 to map
+       each intermediate gateway router hop.
+     * ip / ifconfig: Displays IPv4/IPv6 addresses, subnet masks, and network interfaces.
+     * ss / netstat: Queries kernel socket tables for active TCP/UDP sockets and ports.
+     * arp / ip neigh: Displays ARP cache mapping 32-bit IPv4 addresses to 48-bit MAC addresses.
+     * nslookup: Queries DNS servers over UDP/TCP port 53 to resolve domain names.
 
-### 2. THEORY
-* **Layer 1 (Physical Layer):**
-  - **NIC (Network Interface Card):** Connects host to physical transmission medium; holds a unique, burnt-in 48-bit MAC address.
-  - **UTP CAT6 Cable:** 4 twisted copper pairs to eliminate crosstalk and electromagnetic interference (EMI); supports up to 10 Gbps over 55m.
-* **Layer 2 (Data Link Layer):**
-  - **Switch:** Multiport intelligent bridge; inspects incoming Ethernet frame headers, builds dynamic MAC address tables, and forwards frames only to the designated destination port (unicast), eliminating collisions.
-* **Layer 3 (Network Layer):**
-  - **Router:** Interconnects logically disparate IP networks; maintains routing tables, executes routing algorithms, and determines the optimal path across autonomous systems.
-* **Diagnostic Protocols & Command Theory:**
-  - `ping`: Employs **ICMP (Internet Control Message Protocol)** Echo Request (Type 8) and Echo Reply (Type 0) packets to verify end-to-end IP reachability, packet loss, and round-trip time (RTT).
-  - `tracert` / `traceroute`: Exploits the **Time-To-Live (TTL)** field in IP headers. Generates packets starting at TTL=1, incrementing by 1 per probe. When TTL expires, intermediate routers return ICMP Time Exceeded (Type 11), mapping every hop along the route.
-  - `ipconfig` / `ifconfig`: Displays host network interface parameters: IPv4/IPv6 address, Subnet Mask, Default Gateway, and DHCP/DNS lease details.
-  - `arp -a`: Queries and displays the **Address Resolution Protocol (ARP)** cache mapping 32-bit IPv4 addresses to 48-bit physical MAC addresses.
-  - `netstat -an`: Inspects active TCP/UDP sockets, open listening ports, and connection states (`LISTENING`, `ESTABLISHED`, `TIME_WAIT`).
-  - `nslookup`: Queries DNS servers over UDP/TCP port 53 to resolve Fully Qualified Domain Names (FQDN) to IP addresses and verify Resource Records (`A`, `AAAA`, `NS`, `MX`).
+3. EXPLANATION / PROCEDURE:
+   - Step 1: Inspect hardware in lab: identify NIC, RJ45 patch cables, switches, routers.
+   - Step 2: Run loopback test: ping -c 4 127.0.0.1 to confirm local TCP/IP stack integrity.
+   - Step 3: Check host IP configuration: ip a (or ifconfig) to note IP, subnet mask, interface.
+   - Step 4: Verify external internet reachability: ping -c 4 8.8.8.8.
+   - Step 5: Trace routing path: traceroute google.com to view hop-by-hop latency.
+   - Step 6: Inspect active listening sockets: ss -tulnp to display open TCP/UDP ports.
+   - Step 7: Inspect address resolution cache: arp -a (or ip neigh) to view IP-to-MAC resolutions.
 
-### 3. EXPLANATION / PROCEDURE
-1. **Hardware Inspection:** Examine physical lab infrastructure—identify NIC cards in workstations, RJ45 patch cables, 24/48-port rack-mounted switches, and gateway routers.
-2. **Local TCP/IP Stack Check:** Execute `ping 127.0.0.1` (loopback IP) to confirm TCP/IP protocol stack initialization on the OS.
-3. **Host IP Configuration:** Execute `ipconfig /all` to retrieve assigned IP address, Subnet Mask, Gateway IP, and physical MAC address.
-4. **End-to-End Connectivity:** Execute `ping 8.8.8.8` to test public internet routing and calculate latency.
-5. **Path Tracing:** Run `tracert google.com` to observe hop-by-hop packet routing and identify latency bottlenecks at intermediate gateways.
-6. **Socket Inspection:** Execute `netstat -ano` to list active TCP sockets and identify background daemon processes binding to specific port numbers.
-7. **Address Resolution Cache:** Run `arp -a` to view dynamic IP-to-MAC resolutions obtained on the local subnet.
+4. CONCLUSION:
+   Successfully identified core networking hardware components and demonstrated
+   network diagnostic and configuration commands on Linux. Evaluated round-trip
+   time, route hops, socket states, and local ARP/DNS resolution tables.
 
-### 4. CONCLUSION
-Successfully inspected and identified core networking hardware devices and demonstrated the operation of essential network diagnostic commands. Evaluated round-trip time, route hops, socket states, and local ARP/DNS resolution tables.
+5. UBUNTU / LINUX EXECUTION COMMANDS:
+   -----------------------------------------------------------------------------
+   * Inspect local IP & interfaces:
+     ip a   (OR: ifconfig)
+   * Test network reachability (4 packets):
+     ping -c 4 8.8.8.8
+   * Trace route hops to destination:
+     traceroute google.com   (Install if needed: sudo apt install traceroute)
+   * Display active listening sockets & TCP ports:
+     ss -tulnp   (OR: netstat -tulnp)
+   * DNS resolution query:
+     nslookup google.com
+   * Inspect ARP cache table:
+     arp -a   (OR: ip neigh)
+   -----------------------------------------------------------------------------
+================================================================================
 -->

@@ -70,36 +70,47 @@ Batch: B2
 ================================================================================
                     LAB PRACTICAL EXAMINATION WRITE-UP (5 MARKS)
 ================================================================================
--->
 
-# Practical Examination Write-Up: Experiment 12
+1. AIM:
+   To conduct an architectural case study of the SIT Computer Networking Laboratory
+   by inspecting its physical star topology, structured cabling, access switching,
+   IP subnetting, default routing, and perimeter network security framework.
 
-### 1. AIM
-To conduct an architectural case study of the SIT Computer Networking Laboratory by inspecting and analyzing its physical topology, structured cabling, switching infrastructure, IP subnetting scheme, default routing, and network security framework.
+2. THEORY:
+   - Cisco Three-Layer Hierarchical Network Model:
+     * Core Layer: High-speed backbone switching traffic between campus blocks.
+     * Distribution Layer: Boundary routers and UTM firewalls enforcing ACLs,
+       inter-VLAN routing, and QoS.
+     * Access Layer: Layer 2 managed switches providing desktop connectivity.
+   - Physical & Logical Topology: Physical Star topology with CAT6 structured
+     cabling terminating at patch panels in server racks.
+   - IP Addressing & Services:
+     * Private IPv4 address allocation (RFC 1918) leased via centralized DHCP.
+     * Network Address Translation (NAT/PAT) at firewall for public internet egress.
+     * VLAN segmentation isolating lab workstations from faculty/admin subnets.
 
-### 2. THEORY
-* **Cisco Three-Layer Hierarchical Network Model:**
-  - **Core Layer:** High-speed packet switching backbone interconnecting academic blocks with zero packet filtering overhead.
-  - **Distribution Layer:** Boundary routers and UTM firewalls enforcing Access Control Lists (ACLs), inter-VLAN routing, and QoS policies.
-  - **Access Layer:** Layer 2 managed Ethernet switches providing desktop workstations direct LAN access.
-* **Physical & Logical Topologies:**
-  - Physical Star Topology: Each workstation connects via dedicated Cat6 drop cables to a centralized access switch patch panel.
-  - Logical Bus/Ethernet: Shared broadcast domain per VLAN over switched Ethernet fabric.
-* **IP Addressing & Subnetting (RFC 1918):**
-  - Private IPv4 address allocation (Class B/C subnet, e.g., `172.16.x.0/24` or `10.x.x.0/24`).
-  - Dynamic host assignment via centralized DHCP server (leasing IP, subnet mask, default gateway, and DNS servers).
-  - Network Address Translation (NAT/PAT) at border firewall to map internal private IP blocks to routable public IP addresses.
+3. EXPLANATION / AUDIT PROCEDURE:
+   - Step 1: Inspect workstation NICs, CAT6 drop cables, and dual-faceplate RJ45 sockets.
+   - Step 2: Examine server rack: 24/48-port Layer 2 managed switches, 110-patch panels.
+   - Step 3: Verify gateway router and UTM Firewall (Sophos/Fortinet) enforcing
+     content filtering, captive portal, and bandwidth quotas.
+   - Step 4: Verify default gateway and DHCP lease details from workstation terminal.
 
-### 3. EXPLANATION / INFRASTRUCTURE AUDIT
-1. **Physical Layout & Hardware Inventory:**
-   - 40–60 Workstations equipped with Gigabit Ethernet NICs (10/100/1000 Mbps).
-   - 24/48-port Layer 2 Managed Switches (Cisco Catalyst / HP Aruba) housed in a 19-inch wall-mounted/floor rack.
-   - Structured Cabling: CAT6 UTP cables run through PVC raceways/conduits terminated into dual RJ45 keystone faceplates at student desks and 110-type punch-down patch panels in the rack.
-2. **Network Services & Boundary Security:**
-   - **UTP Patching:** Patch cords connect patch panel ports to switch ports. Uplink port connects via Gigabit fiber/copper to core distribution switch.
-   - **UTM Firewall / Gateway:** Sophos/Fortinet appliance acting as default gateway, implementing Deep Packet Inspection (DPI), URL content filtering, student authentication captive portal, and bandwidth quota management.
-   - **VLAN Segmentation:** Lab hosts are isolated within a dedicated Lab VLAN (e.g., VLAN 20), separating student lab traffic from administrative and faculty subnets.
+4. CONCLUSION:
+   Successfully conducted an architectural case study of the SIT Computer Networking
+   Laboratory. Evaluated star topology implementation, structured cabling, access
+   layer switches, DHCP/NAT operations, and perimeter UTM firewall security.
 
-### 4. CONCLUSION
-Successfully analyzed the enterprise networking architecture of the SIT Computer Networking Laboratory. Evaluated physical star topology implementation, structured Cat6 cabling, access layer switch configuration, DHCP/NAT operations, and perimeter UTM firewall security mechanisms.
+5. UBUNTU / LINUX AUDIT COMMANDS:
+   -----------------------------------------------------------------------------
+   * Display default gateway routing table:
+     ip route show
+   * Verify configured DNS resolver:
+     cat /etc/resolv.conf
+   * Ping default gateway router:
+     ping -c 3 $(ip route | grep default | awk '{print $3}')
+   * Check DHCP lease information:
+     cat /var/lib/dhcp/dhclient.leases   (OR: ip route)
+   -----------------------------------------------------------------------------
+================================================================================
 -->
