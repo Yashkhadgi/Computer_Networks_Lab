@@ -1,9 +1,3 @@
-<!--
-Name: Yash Khadgi
-PRN: 24070521137
-Batch: B2
--->
-
 # Experiment 1: Basic Hardware Components & Networking Commands
 
 ## Hardware Components

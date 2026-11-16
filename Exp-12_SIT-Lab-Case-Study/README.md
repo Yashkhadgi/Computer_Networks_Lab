@@ -1,9 +1,3 @@
-<!--
-Name: Yash Khadgi
-PRN: 24070521137
-Batch: B2
--->
-
 # Experiment 12: Case Study of SIT Computer Networking Laboratory Architecture
 
 ## Network Architecture Overview

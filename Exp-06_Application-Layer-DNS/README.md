@@ -1,9 +1,3 @@
-<!--
-Name: Yash Khadgi
-PRN: 24070521137
-Batch: B2
--->
-
 # Experiment 6: Analysis of Application Layer Packet (DNS) using DNS cmd & Wireshark
 
 ## Objectives

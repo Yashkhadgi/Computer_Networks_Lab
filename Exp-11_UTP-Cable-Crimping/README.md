@@ -1,9 +1,3 @@
-<!--
-Name: Yash Khadgi
-PRN: 24070521137
-Batch: B2
--->
-
 # Experiment 11: Study and Demonstration of UTP Cable Crimping using RJ45 Connector
 
 ## Objectives

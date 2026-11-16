@@ -1,9 +1,3 @@
-<!--
-Name: Yash Khadgi
-PRN: 24070521137
-Batch: B2
--->
-
 # Experiment 7: Packet Analysis of TCP & UDP Protocols
 
 ## Objectives

@@ -1,14 +1,5 @@
 # Computer Networks Laboratory
 
-<!--
-Name: Yash Khadgi
-PRN: 24070521137
-Batch: B2
--->
-
-**Name:** Yash Khadgi  
-**PRN:** 24070521137  
-**Batch:** B2  
 
 ---
 
