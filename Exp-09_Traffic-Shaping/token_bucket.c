@@ -137,25 +137,17 @@ int main() {
    Successfully simulated the Token Bucket algorithm in C. Demonstrated how token
    accumulation enables short-term traffic bursts without data loss while
    constraining the long-term average transmission rate to the token generation rate.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   Step 1: Open Terminal and navigate to directory:
-           cd Exp-09_Traffic-Shaping
+   Method A: Using GCC / MinGW (Command Prompt / PowerShell):
+     cd Exp-09_Traffic-Shaping
+     gcc token_bucket.c -o token_bucket.exe
+     .\token_bucket.exe
 
-   Step 2: Compile Token Bucket code:
-           gcc token_bucket.c -o token_bucket
-
-   Step 3: Run simulation:
-           ./token_bucket
-
-   Sample Inputs to Enter:
-           Enter bucket size (capacity): 10
-           Enter token generation rate: 3
-           Enter number of time units: 4
-           Time unit 1 packets: 4
-           Time unit 2 packets: 5
-           Time unit 3 packets: 2
-           Time unit 4 packets: 6
+   Method B: Using Dev-C++ / Code::Blocks:
+     1. Open token_bucket.c in IDE.
+     2. Press F9 / F11 (Compile & Run).
    -----------------------------------------------------------------------------
 ================================================================================
 */

@@ -178,22 +178,23 @@ void receiver(int frames[], int start, int window_size, int size) {
    simulation in C. Demonstrated pipelined frame transmission, cumulative ACK
    generation, window sliding upon acknowledgment, and retransmission of the full
    window upon transmission error.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   Step 1: Open Terminal and navigate to directory:
-           cd Exp-08_Sliding-Window-GoBackN
+   Method A: Using GCC / MinGW (Command Prompt / PowerShell):
+     cd Exp-08_Sliding-Window-GoBackN
+     gcc prac8.c -o prac8.exe
+     .\prac8.exe
 
-   Step 2: Compile using gcc:
-           gcc prac8.c -o prac8
-
-   Step 3: Run the simulation:
-           ./prac8
+   Method B: Using Dev-C++ / Code::Blocks:
+     1. Open prac8.c in IDE.
+     2. Press F9 / F11 (Compile & Run).
 
    Sample Inputs to Enter:
-           Enter number of frames to send (max 50): 5
-           Enter window size: 3
-           Did all frames receive correctly? (y/n): y
-           Did all frames receive correctly? (y/n): y
+     Enter number of frames to send (max 50): 5
+     Enter window size: 3
+     Did all frames receive correctly? (y/n): y
+     Did all frames receive correctly? (y/n): y
    -----------------------------------------------------------------------------
 ================================================================================
 */

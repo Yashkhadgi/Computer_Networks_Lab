@@ -156,25 +156,17 @@ int main() {
    in C. Demonstrated how bursty incoming packet flows are converted into a steady,
    constant outgoing transmission rate, and observed packet dropping when buffer
    capacity is exceeded.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   Step 1: Open Terminal and navigate to directory:
-           cd Exp-09_Traffic-Shaping
+   Method A: Using GCC / MinGW (Command Prompt / PowerShell):
+     cd Exp-09_Traffic-Shaping
+     gcc leaky_bucket.c -o leaky_bucket.exe
+     .\leaky_bucket.exe
 
-   Step 2: Compile Leaky Bucket code:
-           gcc leaky_bucket.c -o leaky_bucket
-
-   Step 3: Run simulation:
-           ./leaky_bucket
-
-   Sample Inputs to Enter:
-           Enter bucket size (capacity): 10
-           Enter outgoing rate: 3
-           Enter number of time units: 4
-           Time unit 1 incoming: 4
-           Time unit 2 incoming: 8
-           Time unit 3 incoming: 2
-           Time unit 4 incoming: 5
+   Method B: Using Dev-C++ / Code::Blocks:
+     1. Open leaky_bucket.c in IDE.
+     2. Press F9 / F11 (Compile & Run).
    -----------------------------------------------------------------------------
 ================================================================================
 */

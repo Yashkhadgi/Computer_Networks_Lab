@@ -7,57 +7,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
+#pragma comment(lib, "ws2_32.lib")
 
 #define PORT 8081
 #define BUFFER_SIZE 1024
 
 int main() {
-    int sockfd;
+    WSADATA wsa;
+    SOCKET sockfd;
     char buffer[BUFFER_SIZE];
     char *response = "Hello from UDP Server!";
     struct sockaddr_in servaddr, cliaddr;
-    socklen_t len = sizeof(cliaddr);
+    int len = sizeof(cliaddr);
 
-    // Create datagram socket file descriptor
-    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-        perror("Socket creation failed");
-        exit(EXIT_FAILURE);
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+        printf("WSAStartup failed.\n");
+        return 1;
+    }
+
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
+        printf("Socket creation failed.\n");
+        WSACleanup();
+        return 1;
     }
 
     memset(&servaddr, 0, sizeof(servaddr));
     memset(&cliaddr, 0, sizeof(cliaddr));
 
-    // Fill server information
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = INADDR_ANY;
     servaddr.sin_port = htons(PORT);
 
-    // Bind socket with server address
-    if (bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
-        perror("Bind failed");
-        close(sockfd);
-        exit(EXIT_FAILURE);
+    if (bind(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) == SOCKET_ERROR) {
+        printf("Bind failed.\n");
+        closesocket(sockfd);
+        WSACleanup();
+        return 1;
     }
 
     printf("UDP Server running on port %d...\n", PORT);
-
-    // Receive incoming datagram from client
-    ssize_t n = recvfrom(sockfd, buffer, BUFFER_SIZE - 1, 0, (struct sockaddr *)&cliaddr, &len);
+    int n = recvfrom(sockfd, buffer, BUFFER_SIZE - 1, 0, (struct sockaddr *)&cliaddr, &len);
     if (n > 0) {
         buffer[n] = '\0';
         printf("Client says: %s\n", buffer);
     }
 
-    // Send response back to the client's captured address
-    sendto(sockfd, response, strlen(response), 0, (const struct sockaddr *)&cliaddr, len);
+    sendto(sockfd, response, (int)strlen(response), 0, (struct sockaddr *)&cliaddr, len);
     printf("Response sent to client.\n");
 
-    // Close socket
-    close(sockfd);
+    closesocket(sockfd);
+    WSACleanup();
+
     return 0;
 }
 
@@ -121,57 +124,48 @@ int main() {
 ================================================================================
 
 1. AIM:
-   To implement a connectionless, iterative UDP Server using POSIX Socket API
-   in C on Linux/Ubuntu and demonstrate datagram reception and transmission without
-   connection setup.
+   To implement a connectionless UDP Server using BSD/Winsock2 API in C on
+   Windows and demonstrate datagram reception and transmission.
 
 2. THEORY:
-   - User Datagram Protocol (UDP): A lightweight, connectionless, unreliable
-     Transport Layer protocol. It operates without connection handshakes, sequence
-     numbers, or acknowledgments, providing low-latency best-effort delivery.
-   - UDP Header Format (Fixed 8 Bytes):
-     * Source Port (16 bits)
-     * Destination Port (16 bits)
-     * Length (16 bits - header + data)
-     * Checksum (16 bits - error detection)
-   - Connectionless Socket Semantics:
-     * Uses SOCK_DGRAM instead of SOCK_STREAM.
+   - User Datagram Protocol (UDP): Lightweight, connectionless, unreliable
+     Transport Layer protocol with minimal 8-byte header (Src Port, Dst Port,
+     Length, Checksum) and no connection handshake overhead.
+   - Winsock UDP Server Workflow:
+     * WSAStartup(): Initializes Winsock subsystem.
+     * socket(AF_INET, SOCK_DGRAM, 0): Creates datagram socket descriptor.
+     * bind(): Binds socket to local port 8081 and INADDR_ANY.
      * Does NOT call listen() or accept().
-     * Calls bind() to associate socket with well-known local port (8081).
-     * Uses recvfrom() to receive independent datagrams; automatically captures
-       the sender's IP address and port into struct sockaddr_in (cliaddr).
-     * Uses sendto() to send datagram replies directly back to the client.
+     * recvfrom(): Blocks until a datagram arrives; captures client sockaddr_in.
+     * sendto(): Sends response datagram directly back to client address.
+     * closesocket() & WSACleanup(): Releases socket and DLL resources.
 
 3. EXPLANATION / WORKING:
-   - Step 1: socket(AF_INET, SOCK_DGRAM, 0) allocates datagram socket.
-   - Step 2: Configure servaddr with AF_INET, INADDR_ANY, and htons(8081).
-   - Step 3: bind() binds socket to port 8081.
-   - Step 4: recvfrom() blocks until an incoming UDP datagram arrives from client;
-     stores sender address details in cliaddr.
-   - Step 5: Null-terminate buffer and print client payload.
-   - Step 6: sendto() returns datagram ("Hello from UDP Server!") to cliaddr.
-   - Step 7: close() releases socket descriptor.
+   - Step 1: Initialize Winsock library via WSAStartup(MAKEWORD(2,2), &wsa).
+   - Step 2: socket(AF_INET, SOCK_DGRAM, 0) allocates datagram socket descriptor.
+   - Step 3: Configure servaddr with AF_INET, htons(8081), and INADDR_ANY.
+   - Step 4: bind() binds socket to port 8081.
+   - Step 5: recvfrom() waits for incoming datagram and records client IP/port.
+   - Step 6: Null-terminate buffer and print client message.
+   - Step 7: sendto() returns datagram ("Hello from UDP Server!") to client.
+   - Step 8: closesocket(sockfd) and WSACleanup() free Winsock memory.
 
 4. CONCLUSION:
-   Successfully implemented and tested a POSIX UDP Server on Linux/Ubuntu.
-   Demonstrated connectionless datagram reception and transmission using
-   recvfrom() and sendto() over port 8081.
+   Successfully implemented and verified the UDP Server program on Windows.
+   Demonstrated connectionless datagram reception and transmission without
+   prior connection establishment.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   Step 1: Open Terminal (Terminal 1):
-           cd Exp-04_UDP-Server
+   Method A: Using GCC / MinGW (Command Prompt 1 / PowerShell 1):
+     cd Exp-04_UDP-Server
+     gcc udp_server.c -o udp_server.exe -lws2_32
+     .\udp_server.exe
 
-   Step 2: Compile server code using gcc:
-           gcc udp_server.c -o udp_server
-
-   Step 3: Run the server (Must be started BEFORE client):
-           ./udp_server
-
-   Expected Output in Terminal 1:
-           UDP Server running on port 8081...
-           Client says: Hello from UDP Client!
-           Response sent to client.
+   Method B: Using Dev-C++ / Code::Blocks:
+     1. Open udp_server.c in IDE.
+     2. Ensure ws2_32 is linked.
+     3. Press F9 / F11 (Compile & Run).
    -----------------------------------------------------------------------------
 ================================================================================
 */

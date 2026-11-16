@@ -121,20 +121,20 @@ Batch: B2
    network diagnostic and configuration commands on Linux. Evaluated round-trip
    time, route hops, socket states, and local ARP/DNS resolution tables.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   * Inspect local IP & interfaces:
-     ip a   (OR: ifconfig)
-   * Test network reachability (4 packets):
-     ping -c 4 8.8.8.8
+   * Inspect host IP & adapter parameters:
+     ipconfig /all
+   * Test network reachability & RTT:
+     ping 8.8.8.8
    * Trace route hops to destination:
-     traceroute google.com   (Install if needed: sudo apt install traceroute)
+     tracert google.com
    * Display active listening sockets & TCP ports:
-     ss -tulnp   (OR: netstat -tulnp)
+     netstat -ano
    * DNS resolution query:
      nslookup google.com
    * Inspect ARP cache table:
-     arp -a   (OR: ip neigh)
+     arp -a
    -----------------------------------------------------------------------------
 ================================================================================
 -->

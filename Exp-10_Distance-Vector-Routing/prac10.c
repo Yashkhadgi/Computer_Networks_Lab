@@ -165,23 +165,24 @@ int main() {
    Successfully implemented and verified the Distance Vector Routing algorithm in C.
    Demonstrated distributed route discovery using the Bellman-Ford equation and
    verified convergence of optimal least-cost routing tables for all network nodes.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   Step 1: Open Terminal and navigate to directory:
-           cd Exp-10_Distance-Vector-Routing
+   Method A: Using GCC / MinGW (Command Prompt / PowerShell):
+     cd Exp-10_Distance-Vector-Routing
+     gcc prac10.c -o prac10.exe
+     .\prac10.exe
 
-   Step 2: Compile using gcc:
-           gcc prac10.c -o prac10
+   Method B: Using Dev-C++ / Code::Blocks:
+     1. Open prac10.c in IDE.
+     2. Press F9 / F11 (Compile & Run).
 
-   Step 3: Run program:
-           ./prac10
-
-   Sample Inputs to Enter (3-node network):
-           Enter the number of nodes: 3
-           Enter the Cost Matrix (3 x 3):
-           0 2 7
-           2 0 1
-           7 1 0
+   Sample Inputs:
+     Enter the number of nodes: 3
+     Enter the Cost Matrix (3 x 3):
+     0 2 7
+     2 0 1
+     7 1 0
    -----------------------------------------------------------------------------
 ================================================================================
 */

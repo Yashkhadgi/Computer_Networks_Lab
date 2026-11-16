@@ -7,47 +7,50 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+
+#pragma comment(lib, "ws2_32.lib")
 
 #define PORT 8081
 #define BUFFER_SIZE 1024
 
 int main() {
-    int sockfd;
+    WSADATA wsa;
+    SOCKET sockfd;
     char buffer[BUFFER_SIZE];
     char *msg = "Hello from UDP Client!";
     struct sockaddr_in servaddr;
-    socklen_t len = sizeof(servaddr);
+    int len = sizeof(servaddr);
 
-    // Create datagram socket file descriptor
-    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-        perror("Socket creation failed");
-        exit(EXIT_FAILURE);
+    if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
+        printf("WSAStartup failed.\n");
+        return 1;
+    }
+
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
+        printf("Socket creation failed.\n");
+        WSACleanup();
+        return 1;
     }
 
     memset(&servaddr, 0, sizeof(servaddr));
-
-    // Fill server information
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(PORT);
     servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    // Send datagram to server
-    sendto(sockfd, msg, strlen(msg), 0, (const struct sockaddr *)&servaddr, sizeof(servaddr));
+    sendto(sockfd, msg, (int)strlen(msg), 0, (struct sockaddr *)&servaddr, len);
     printf("Datagram sent to server.\n");
 
-    // Receive server reply
-    ssize_t n = recvfrom(sockfd, buffer, BUFFER_SIZE - 1, 0, (struct sockaddr *)&servaddr, &len);
+    int n = recvfrom(sockfd, buffer, BUFFER_SIZE - 1, 0, (struct sockaddr *)&servaddr, &len);
     if (n > 0) {
         buffer[n] = '\0';
         printf("Server response: %s\n", buffer);
     }
 
-    // Close socket
-    close(sockfd);
+    closesocket(sockfd);
+    WSACleanup();
+
     return 0;
 }
 
@@ -111,52 +114,47 @@ int main() {
 ================================================================================
 
 1. AIM:
-   To implement a connectionless UDP Client using POSIX Socket API in C on
-   Linux/Ubuntu and demonstrate datagram transmission and response reception to/from
-   a UDP Server.
+   To implement a connectionless UDP Client using BSD/Winsock2 API in C on
+   Windows and demonstrate datagram transmission and reception to/from a server.
 
 2. THEORY:
    - UDP Client Characteristics:
-     * Operates without establishing a virtual circuit (no 3-way handshake).
-     * Explicit call to bind() is omitted; Linux kernel dynamically binds an
-       ephemeral port upon first transmission.
-     * Each datagram is an isolated packet containing source and destination
-       address headers.
-     * High throughput and zero handshake overhead; widely used for DNS lookups,
-       NTP synchronization, and streaming media.
-   - POSIX Socket Functions:
-     * socket(AF_INET, SOCK_DGRAM, 0): Allocates UDP socket descriptor.
-     * sendto(): Sends datagram directly to destination server sockaddr_in.
-     * recvfrom(): Blocks until server response datagram arrives.
-     * close(): Closes the socket descriptor.
+     * Operates without virtual circuit negotiation (no 3-way handshake).
+     * No bind() required; OS binds an ephemeral port on transmission.
+     * Each datagram is an independent transmission unit.
+     * Minimal transmission overhead, suitable for low-latency applications.
+   - Winsock Functions:
+     * socket(AF_INET, SOCK_DGRAM, 0): Allocates datagram socket.
+     * sendto(): Sends datagram directly to destination sockaddr_in.
+     * recvfrom(): Waits for server reply datagram.
+     * closesocket() & WSACleanup(): Releases socket and unloads DLL.
 
 3. EXPLANATION / WORKING:
-   - Step 1: socket() creates client UDP socket descriptor.
-   - Step 2: Configure servaddr with AF_INET, htons(8081), and inet_addr("127.0.0.1").
-   - Step 3: sendto() transmits "Hello from UDP Client!" to 127.0.0.1:8081.
-   - Step 4: recvfrom() waits for server acknowledgment datagram.
-   - Step 5: Null-terminate response and print to stdout.
-   - Step 6: close() closes the socket.
+   - Step 1: Initialize Winsock via WSAStartup(MAKEWORD(2,2), &wsa).
+   - Step 2: socket() creates UDP socket descriptor.
+   - Step 3: Configure servaddr with AF_INET, htons(8081), and inet_addr("127.0.0.1").
+   - Step 4: sendto() sends "Hello from UDP Client!" to 127.0.0.1:8081.
+   - Step 5: recvfrom() receives server response datagram into buffer.
+   - Step 6: Null-terminate and print server reply.
+   - Step 7: closesocket() and WSACleanup() free socket memory.
 
 4. CONCLUSION:
-   Successfully implemented and verified a POSIX UDP Client on Linux/Ubuntu.
-   Demonstrated connectionless datagram transmission and reply reception using
-   sendto() and recvfrom() with minimal latency.
+   Successfully implemented and verified the UDP Client program on Windows.
+   Validated lightweight datagram transmission and response reception without
+   connection setup latency.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+5. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
-   Step 1: Open a SECOND Terminal window (Terminal 2):
-           cd Exp-05_UDP-Client
+   Method A: Using GCC / MinGW (Command Prompt 2 / PowerShell 2):
+     cd Exp-05_UDP-Client
+     gcc udp_client.c -o udp_client.exe -lws2_32
+     .\udp_client.exe
+     (Make sure UDP Server is running in Terminal 1)
 
-   Step 2: Compile client code using gcc:
-           gcc udp_client.c -o udp_client
-
-   Step 3: Run the client (Make sure UDP Server is running in Terminal 1):
-           ./udp_client
-
-   Expected Output in Terminal 2:
-           Datagram sent to server.
-           Server response: Hello from UDP Server!
+   Method B: Using Dev-C++ / Code::Blocks:
+     1. Open udp_client.c in IDE.
+     2. Ensure ws2_32 is linked.
+     3. Press F9 / F11 (Compile & Run).
    -----------------------------------------------------------------------------
 ================================================================================
 */
