@@ -115,7 +115,21 @@ int main() {
      * recvfrom(): Waits for server reply datagram.
      * close(): Releases socket descriptor.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Verify UDP Server is running in Terminal 1 on port 8081.
+   Step 2: Open Terminal 2 using `Ctrl + Shift + T`.
+   Step 3: Navigate to directory:
+           cd Exp-05_UDP-Client
+   Step 4: Compile UDP Client code:
+           gcc udp_client_linux.c -o udp_client
+   Step 5: Run client executable:
+           ./udp_client
+   Step 6: Observe transmission and reply:
+           Terminal 2 prints:
+           "Datagram sent to server."
+           "Server response: Hello from UDP Server!"
+
+4. EXPLANATION / WORKING:
    - Step 1: socket() creates client UDP socket descriptor.
    - Step 2: Configure servaddr with AF_INET, htons(8081), and inet_addr("127.0.0.1").
    - Step 3: sendto() sends "Hello from UDP Client!" to 127.0.0.1:8081.
@@ -123,12 +137,12 @@ int main() {
    - Step 5: Null-terminate and print server reply.
    - Step 6: close() frees socket descriptor.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the POSIX UDP Client on Linux/Ubuntu.
    Validated lightweight datagram transmission and response reception without
    connection setup latency.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open a NEW Terminal window (Terminal 2):
            cd Exp-05_UDP-Client

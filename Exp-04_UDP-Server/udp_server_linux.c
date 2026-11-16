@@ -123,7 +123,23 @@ int main() {
      * sendto(): Sends response datagram directly back to client address.
      * close(): Releases socket descriptor.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Terminal 1 using `Ctrl + Alt + T`.
+   Step 2: Navigate to directory:
+           cd Exp-04_UDP-Server
+   Step 3: Compile the UDP Server C program:
+           gcc udp_server_linux.c -o udp_server
+   Step 4: Start UDP Server:
+           ./udp_server
+   Step 5: Observe status:
+           Prints "UDP Server running on port 8081..." and waits on recvfrom().
+   Step 6: Keep Terminal 1 open and run UDP Client in Terminal 2.
+   Step 7: Once datagram arrives, Terminal 1 displays:
+           "Client says: Hello from UDP Client!"
+           "Response sent to client."
+           Server exits cleanly.
+
+4. EXPLANATION / WORKING:
    - Step 1: socket() allocates datagram socket descriptor.
    - Step 2: Configure servaddr with AF_INET, htons(8081), and INADDR_ANY.
    - Step 3: bind() binds socket to port 8081.
@@ -132,12 +148,12 @@ int main() {
    - Step 6: sendto() returns datagram ("Hello from UDP Server!") to client.
    - Step 7: close() releases socket descriptor.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the POSIX UDP Server on Linux/Ubuntu.
    Demonstrated connectionless datagram reception and transmission using
    recvfrom() and sendto() over port 8081.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open Terminal (Terminal 1):
            cd Exp-04_UDP-Server

@@ -148,7 +148,25 @@ void receiver(int frames[], int start, int window_size, int size) {
        When the sender timer for frame $k$ expires, the sender must retransmit
        all frames in the current window starting from frame $k$.
 
-3. EXPLANATION / ALGORITHM:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Open Command Prompt.
+   Step 2: Navigate to directory:
+           cd Exp-08_Sliding-Window-GoBackN
+   Step 3: Compile C program:
+           gcc prac8.c -o prac8.exe
+   Step 4: Run executable:
+           .\prac8.exe
+   Step 5: Enter simulation inputs:
+           Number of frames: 5
+           Window size: 3
+   Step 6: Observe sender window frames [0] [1] [2] sent and receiver ACKs 1, 2, 3.
+   Step 7: Prompt "Did all frames receive correctly? (y/n)":
+           Type 'y' to slide window forward -> frames [3] [4] sent.
+           Type 'y' -> Complete!
+   Step 8: To test Error Recovery:
+           Run again and enter 'n' -> Entire unacknowledged window is retransmitted.
+
+4. EXPLANATION / ALGORITHM:
    - Step 1: Prompt user for total number of frames to transmit ($n \le 50$) and
      sender window size ($window\_size \le n$).
    - Step 2: Initialize frame array: frames[i] = i for i = 0 to n - 1.
@@ -167,13 +185,13 @@ void receiver(int frames[], int start, int window_size, int size) {
        base remains unchanged, and the entire window is re-sent from frames[base].
    - Step 7: Repeat until all frames (base >= n) are acknowledged.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the Go-Back-N Sliding Window Protocol
    simulation in C. Demonstrated pipelined frame transmission, cumulative ACK
    generation, window sliding upon acknowledgment, and retransmission of the full
    window upon transmission error.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt / PowerShell):
      cd Exp-08_Sliding-Window-GoBackN

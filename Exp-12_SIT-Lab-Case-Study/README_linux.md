@@ -83,19 +83,33 @@
      * Network Address Translation (NAT/PAT) at firewall for public internet egress.
      * VLAN segmentation isolating lab workstations from faculty/admin subnets.
 
-3. EXPLANATION / AUDIT PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Ubuntu Terminal (`Ctrl + Alt + T`).
+   Step 2: Inspect workstation IP, subnet mask, and network interface:
+           ip -br a
+   Step 3: Inspect routing table and identify Default Gateway IP:
+           ip route show
+   Step 4: Test LAN connectivity to Default Gateway router:
+           ping -c 3 $(ip route | grep default | awk '{print $3}')
+   Step 5: View configured DNS resolver server:
+           cat /etc/resolv.conf
+   Step 6: Inspect physical lab layout:
+           Identify CAT6 drop cables, dual faceplates, rack-mounted Layer 2
+           managed switches, and perimeter UTM firewall.
+
+4. EXPLANATION / AUDIT PROCEDURE:
    - Step 1: Inspect workstation NICs, CAT6 drop cables, and dual-faceplate RJ45 sockets.
    - Step 2: Examine server rack: 24/48-port Layer 2 managed switches, 110-patch panels.
    - Step 3: Verify gateway router and UTM Firewall (Sophos/Fortinet) enforcing
      content filtering, captive portal, and bandwidth quotas.
    - Step 4: Verify default gateway and DHCP lease details from workstation terminal.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully conducted an architectural case study of the SIT Computer Networking
    Laboratory. Evaluated star topology implementation, structured cabling, access
    layer switches, DHCP/NAT operations, and perimeter UTM firewall security.
 
-5. UBUNTU / LINUX AUDIT COMMANDS:
+6. UBUNTU / LINUX AUDIT COMMANDS:
    -----------------------------------------------------------------------------
    * Display default gateway routing table:
      ip route show

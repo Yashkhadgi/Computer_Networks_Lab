@@ -131,7 +131,21 @@ int main() {
      * Transmitted = $\min(Stored, R)$
      * Remaining = $Stored - Transmitted$
 
-3. EXPLANATION / ALGORITHM:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: cd Exp-09_Traffic-Shaping
+   Step 2: Compile Leaky Bucket code:
+           gcc leaky_bucket.c -o leaky_bucket.exe
+   Step 3: Run:
+           .\leaky_bucket.exe
+   Step 4: Enter inputs:
+           Bucket capacity: 10
+           Outgoing rate: 3
+           Number of time units: 4
+           Enter incoming packets per unit: 4, 8, 2, 5
+   Step 5: Observe constant outgoing rate (3 packets per tick).
+           Overflow packets are dropped; remaining are drained until bucket is empty.
+
+4. EXPLANATION / ALGORITHM:
    - Step 1: Input bucket capacity, constant outgoing drain rate, and simulation time units.
    - Step 2: Initialize stored = 0.
    - Step 3: For each time unit $i = 1$ to $n$:
@@ -145,13 +159,13 @@ int main() {
    - Step 4: After simulation units end, drain remaining buffered packets tick-by-tick
      at outgoing rate until stored becomes 0.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the Leaky Bucket traffic shaping algorithm
    in C. Demonstrated how bursty incoming packet flows are converted into a steady,
    constant outgoing transmission rate, and observed packet dropping when buffer
    capacity is exceeded.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt / PowerShell):
      cd Exp-09_Traffic-Shaping

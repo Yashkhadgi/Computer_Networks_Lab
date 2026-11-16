@@ -83,19 +83,31 @@
      * Network Address Translation (NAT/PAT) at firewall for public internet egress.
      * VLAN segmentation isolating lab workstations from faculty/admin subnets.
 
-3. EXPLANATION / AUDIT PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Open Command Prompt.
+   Step 2: Inspect workstation network parameters:
+           ipconfig /all
+   Step 3: Identify Default Gateway IP address.
+   Step 4: Test LAN connectivity to Default Gateway router:
+           ping -n 4 <Default_Gateway_IP>
+   Step 5: View configured DNS resolver servers.
+   Step 6: Inspect physical lab layout:
+           Identify CAT6 drop cables, dual faceplates, rack-mounted Layer 2
+           managed switches, and perimeter UTM firewall.
+
+4. EXPLANATION / AUDIT PROCEDURE:
    - Step 1: Inspect workstation NICs, CAT6 drop cables, and dual-faceplate RJ45 sockets.
    - Step 2: Examine server rack: 24/48-port Layer 2 managed switches, 110-patch panels.
    - Step 3: Verify gateway router and UTM Firewall (Sophos/Fortinet) enforcing
      content filtering, captive portal, and bandwidth quotas.
    - Step 4: Verify default gateway and DHCP lease details from workstation terminal.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully conducted an architectural case study of the SIT Computer Networking
    Laboratory. Evaluated star topology implementation, structured cabling, access
    layer switches, DHCP/NAT operations, and perimeter UTM firewall security.
 
-5. UBUNTU / LINUX AUDIT COMMANDS:
+6. WINDOWS AUDIT COMMANDS: COMMANDS:
    -----------------------------------------------------------------------------
    * Display default gateway routing table:
      ip route show

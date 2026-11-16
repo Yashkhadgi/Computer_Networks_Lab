@@ -131,7 +131,24 @@ int main() {
      * Transmitted = $\min(Stored, R)$
      * Remaining = $Stored - Transmitted$
 
-3. EXPLANATION / ALGORITHM:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Terminal (`Ctrl + Alt + T`).
+   Step 2: Navigate to directory:
+           cd Exp-09_Traffic-Shaping
+   Step 3: Compile Leaky Bucket code:
+           gcc leaky_bucket_linux.c -o leaky_bucket
+   Step 4: Run executable:
+           ./leaky_bucket
+   Step 5: Enter inputs:
+           Bucket size (capacity): 10
+           Outgoing rate: 3
+           Number of time units: 4
+           Enter incoming packets per unit: 4, 8, 2, 5
+   Step 6: Observe traffic shaping:
+           Output rate is strictly constant (3 packets per unit).
+           Excess packets overflow and are dropped; remaining are drained.
+
+4. EXPLANATION / ALGORITHM:
    - Step 1: Input bucket capacity, constant outgoing drain rate, and simulation time units.
    - Step 2: Initialize stored = 0.
    - Step 3: For each time unit $i = 1$ to $n$:
@@ -145,12 +162,12 @@ int main() {
    - Step 4: After simulation units end, drain remaining buffered packets tick-by-tick
      at outgoing rate until stored becomes 0.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the Leaky Bucket traffic shaping algorithm
    in C. Demonstrated how bursty incoming packet flows are converted into a steady,
    constant outgoing transmission rate, and observed packet dropping when buffer
    capacity is exceeded.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open Terminal and navigate to directory:
            cd Exp-09_Traffic-Shaping

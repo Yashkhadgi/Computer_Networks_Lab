@@ -139,7 +139,24 @@ int main() {
      * recv() / send(): Reads client payload and returns server response.
      * closesocket() & WSACleanup(): Closes sockets and terminates Winsock library.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Open Command Prompt (CMD 1) or Dev-C++ / Code::Blocks.
+   Step 2: Navigate to directory:
+           cd Exp-02_TCP-Server
+   Step 3: Compile TCP Server code using MinGW GCC with Winsock library:
+           gcc tcp_server.c -o tcp_server.exe -lws2_32
+           (Or in Dev-C++: Project Settings -> Linker -> Add -lws2_32 -> Compile).
+   Step 4: Start TCP Server:
+           .\tcp_server.exe
+   Step 5: Observe status:
+           Prints "TCP Server listening on port 8080..." and pauses waiting for client.
+   Step 6: Keep CMD 1 open and launch TCP Client in CMD 2.
+   Step 7: Once client connects, CMD 1 displays:
+           "Client says: Hello from TCP Client!"
+           "Response sent to client."
+           Server exits cleanly.
+
+4. EXPLANATION / WORKING:
    - Step 1: Initialize Winsock subsystem via WSAStartup(MAKEWORD(2, 2), &wsa).
    - Step 2: Create endpoint via socket(AF_INET, SOCK_STREAM, 0).
    - Step 3: Populate struct sockaddr_in with AF_INET, htons(8080), and INADDR_ANY.
@@ -149,12 +166,12 @@ int main() {
    - Step 7: send() returns greeting ("Hello from TCP Server!") to client.
    - Step 8: closesocket() closes sockets and WSACleanup() releases memory.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the TCP Server socket program on Windows.
    Validated 3-way handshake connection establishment, reliable bidirectional
    communication, and clean Winsock teardown.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt / PowerShell):
      cd Exp-02_TCP-Server

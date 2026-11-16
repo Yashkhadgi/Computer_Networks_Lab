@@ -138,7 +138,24 @@ int main() {
      * Metric update: If $c(x,v) + D_v(y) < D_x(y)$, then update distance and set
        Next Hop = $v$.
 
-3. EXPLANATION / ALGORITHM:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Terminal:
+           cd Exp-10_Distance-Vector-Routing
+   Step 2: Compile C program:
+           gcc prac10_linux.c -o prac10
+   Step 3: Run executable:
+           ./prac10
+   Step 4: Enter number of nodes: 3
+   Step 5: Enter Cost Matrix (3 x 3) [Enter 999 for infinity, 0 for diagonal]:
+           0 2 7
+           2 0 1
+           7 1 0
+   Step 6: Observe Bellman-Ford relaxation updates.
+   Step 7: Verify output routing tables for Node 1, 2, 3:
+           Destination | Next Hop | Distance
+           Verify optimal distance Node 1 to 3 is 3 via Node 2.
+
+4. EXPLANATION / ALGORITHM:
    - Step 1: Define structure node containing distance array dist[MAX] and next-hop
      array via[MAX].
    - Step 2: Prompt user for number of nodes in the network graph.
@@ -155,11 +172,11 @@ int main() {
    - Step 6: Print converged routing tables displaying Destination, Next Hop,
      and Minimum Distance for each node.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the Distance Vector Routing algorithm in C.
    Demonstrated distributed route discovery using the Bellman-Ford equation and
    verified convergence of optimal least-cost routing tables for all network nodes.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open Terminal and navigate to directory:
            cd Exp-10_Distance-Vector-Routing

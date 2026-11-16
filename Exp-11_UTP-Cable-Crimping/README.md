@@ -97,7 +97,18 @@
      * Straight-Through (T568B <-> T568B): Connects unlike devices (PC to Switch).
      * Crossover (T568A <-> T568B): Connects like devices (PC to PC, Switch to Switch).
 
-3. EXPLANATION / PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Gather physical materials: CAT6 UTP cable, RJ45 modular plugs, wire stripper,
+           crimping tool, and LAN Cable Continuity Tester.
+   Step 2: Strip ~2 cm outer jacket using wire stripper without nicking conductor copper.
+   Step 3: Untwist pairs and arrange conductors in strict T568B color order:
+           White-Orange, Orange, White-Green, Blue, White-Blue, Green, White-Brown, Brown.
+   Step 4: Trim conductors evenly (~1.2 cm); insert into RJ45 connector until pins contact copper teeth.
+   Step 5: Insert into 8P crimping tool and squeeze handles firmly.
+   Step 6: Test continuity with LAN Cable Tester: verify LEDs 1-8 light in sequence.
+   Step 7: Connect cable from PC to Switch; verify link LED lights solid green.
+
+4. EXPLANATION / PROCEDURE:
    - Step 1: Strip ~2 cm of outer PVC jacket using cable stripper without nicking wires.
    - Step 2: Untwist wire pairs, cut center spline, and straighten each conductor.
    - Step 3: Align conductors strictly in T568B order (White-Orange, Orange, White-Green,
@@ -107,12 +118,12 @@
    - Step 6: Insert into crimping tool and press firmly to lock pins and strain relief.
    - Step 7: Test cable continuity using LAN Cable Tester (verify LEDs 1-8 light in sequence).
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully fabricated and tested CAT6 Ethernet cables using RJ45 connectors.
    Verified T568B pinout continuity and demonstrated Straight-Through and Crossover
    cable configurations.
 
-5. VERIFICATION & LINUX NETWORK STATUS COMMANDS:
+6. VERIFICATION & LINUX NETWORK STATUS COMMANDS:
    -----------------------------------------------------------------------------
    * Check physical Ethernet link state:
      ip link show

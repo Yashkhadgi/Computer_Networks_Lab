@@ -114,7 +114,21 @@ int main() {
      * If fewer tokens are available ($tokens < incoming$), packets equal to available
        tokens are sent, and remaining packets are dropped or queued.
 
-3. EXPLANATION / ALGORITHM:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: cd Exp-09_Traffic-Shaping
+   Step 2: Compile Token Bucket code:
+           gcc token_bucket.c -o token_bucket.exe
+   Step 3: Run:
+           .\token_bucket.exe
+   Step 4: Enter inputs:
+           Bucket capacity: 10
+           Token generation rate: 3
+           Number of time units: 4
+           Enter packets to send: 4, 5, 2, 6
+   Step 5: Observe traffic shaping:
+           Bursty transmissions allowed when tokens available; average rate bounded.
+
+4. EXPLANATION / ALGORITHM:
    - Step 1: Input token bucket capacity, token generation rate ($r$), and time units ($n$).
    - Step 2: Initialize tokens = 0.
    - Step 3: Loop for each time unit $i = 1$ to $n$:
@@ -127,12 +141,12 @@ int main() {
      * Display packets transmitted, dropped, and remaining tokens in the bucket.
    - Step 4: Display simulation completion status.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully simulated the Token Bucket algorithm in C. Demonstrated how token
    accumulation enables short-term traffic bursts without data loss while
    constraining the long-term average transmission rate to the token generation rate.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt / PowerShell):
      cd Exp-09_Traffic-Shaping

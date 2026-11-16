@@ -96,7 +96,18 @@
      * Fixed 8-byte header: Source Port, Destination Port, Length, Checksum.
      * Connectionless, lightweight, best-effort delivery without handshakes or ACKs.
 
-3. EXPLANATION / PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Open Wireshark and start capture on active interface.
+   Step 2: Open browser or Command Prompt and access a website (e.g. `curl http://google.com`).
+   Step 3: Apply filter in Wireshark: `tcp.flags.syn == 1 || tcp.port == 8080`.
+   Step 4: Identify the 3-Way Handshake in packet list:
+           Frame 1: [SYN] Client -> Server
+           Frame 2: [SYN, ACK] Server -> Client
+           Frame 3: [ACK] Client -> Server
+   Step 5: Inspect Sequence numbers, Acknowledgment numbers, and Window size.
+   Step 6: Apply filter `udp.port == 53` to observe compact 8-byte UDP header.
+
+4. EXPLANATION / PROCEDURE:
    - Step 1: Start Wireshark packet capture on active Linux network interface.
    - Step 2: Generate TCP traffic using curl -I http://google.com or running Exp-02/03.
    - Step 3: Apply filter: tcp.flags.syn == 1 || tcp.port == 8080.
@@ -105,12 +116,12 @@
    - Step 5: Generate UDP traffic using dig google.com or Exp-04/05.
    - Step 6: Filter udp.port == 53 || udp.port == 8081 and inspect the 8-byte header.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully inspected and compared Transport Layer protocols using Wireshark.
    Validated TCP connection establishment, sequence numbering, and reliable delivery
    mechanisms against UDP connectionless, lightweight datagram transmission.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    * Launch Wireshark packet capture:
      sudo wireshark &

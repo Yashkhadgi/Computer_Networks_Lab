@@ -122,7 +122,22 @@ int main() {
      * send() & read(): Transmits client payload and reads server reply.
      * close(): Sends FIN segment, initiating connection teardown.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Verify TCP Server is running in Terminal 1 on port 8080.
+   Step 2: Open a NEW Terminal (Terminal 2) using `Ctrl + Shift + T`.
+   Step 3: Navigate to directory:
+           cd Exp-03_TCP-Client
+   Step 4: Compile the TCP Client C program:
+           gcc tcp_client_linux.c -o tcp_client
+   Step 5: Run client executable:
+           ./tcp_client
+   Step 6: Observe client execution and full-duplex message exchange:
+           Terminal 2 prints:
+           "Message sent to server."
+           "Server response: Hello from TCP Server!"
+   Step 7: Verify TCP connection closed gracefully.
+
+4. EXPLANATION / WORKING:
    - Step 1: socket() creates client socket descriptor.
    - Step 2: Configure serv_addr with AF_INET, htons(8080), and inet_pton("127.0.0.1").
    - Step 3: connect() initiates 3-way handshake with TCP Server running on port 8080.
@@ -130,12 +145,12 @@ int main() {
    - Step 5: read() receives server reply ("Hello from TCP Server!") into buffer.
    - Step 6: close() terminates client socket session.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the POSIX TCP Client on Linux/Ubuntu.
    Demonstrated active connection establishment, reliable bidirectional communication,
    and clean connection closure.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open a NEW Terminal window (Terminal 2):
            cd Exp-03_TCP-Client

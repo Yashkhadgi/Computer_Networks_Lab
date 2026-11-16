@@ -100,7 +100,22 @@ Response Header: Contains Answer RRs (Resource Records), TTL (Time to Live), and
        RD (Recursion Desired), RA (Recursion Available), RCODE.
      * Question, Answer, Authority, and Additional RR count fields.
 
-3. EXPLANATION / PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Terminal (`Ctrl + Alt + T`) and launch Wireshark:
+           sudo wireshark &
+           (If missing: sudo apt install wireshark)
+   Step 2: In Wireshark, double-click active interface (e.g. eth0, wlan0) to start capture.
+   Step 3: In filter toolbar, type: `dns || udp.port == 53` and press Enter.
+   Step 4: Return to Terminal and run DNS query:
+           nslookup google.com
+   Step 5: Run authoritative name server query:
+           nslookup -type=ns google.com
+   Step 6: In Wireshark, click red Stop button.
+   Step 7: Inspect DNS Query packet: note Transaction ID, Flags (0x0100), QNAME.
+   Step 8: Inspect DNS Response packet: verify same Transaction ID, Flags (0x8180),
+           and resolved IP address list in Answer section.
+
+4. EXPLANATION / PROCEDURE:
    - Step 1: Run nslookup google.com in Ubuntu terminal to query default DNS resolver.
    - Step 2: Run nslookup -type=ns google.com to query authoritative name servers.
    - Step 3: Launch Wireshark (sudo wireshark) and select active interface (e.g. eth0, wlan0).
@@ -109,12 +124,12 @@ Response Header: Contains Answer RRs (Resource Records), TTL (Time to Live), and
    - Step 6: Inspect Query header (QR=0, RD=1, QNAME, QTYPE=A) and Response header
      (QR=1, RA=1, TTL, Answer RRs with resolved IP).
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully performed domain name resolution using nslookup and analyzed DNS
    application layer packets using Wireshark on Linux. Verified the 12-byte header
    format, transaction ID matching, recursion flags, and resource record structure.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    * Run forward DNS lookup:
      nslookup google.com

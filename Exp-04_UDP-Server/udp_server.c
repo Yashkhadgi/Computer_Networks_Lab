@@ -134,7 +134,22 @@ int main() {
      * sendto(): Sends response datagram directly back to client address.
      * closesocket() & WSACleanup(): Releases socket and DLL resources.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Open Command Prompt (CMD 1).
+   Step 2: Navigate to directory:
+           cd Exp-04_UDP-Server
+   Step 3: Compile UDP Server code:
+           gcc udp_server.c -o udp_server.exe -lws2_32
+   Step 4: Start UDP Server:
+           .\udp_server.exe
+   Step 5: Observe status:
+           Prints "UDP Server running on port 8081..." and waits on recvfrom().
+   Step 6: Keep CMD 1 open and run UDP Client in CMD 2.
+   Step 7: Once datagram arrives, CMD 1 displays:
+           "Client says: Hello from UDP Client!"
+           "Response sent to client."
+
+4. EXPLANATION / WORKING:
    - Step 1: Initialize Winsock library via WSAStartup(MAKEWORD(2,2), &wsa).
    - Step 2: socket(AF_INET, SOCK_DGRAM, 0) allocates datagram socket descriptor.
    - Step 3: Configure servaddr with AF_INET, htons(8081), and INADDR_ANY.
@@ -144,12 +159,12 @@ int main() {
    - Step 7: sendto() returns datagram ("Hello from UDP Server!") to client.
    - Step 8: closesocket(sockfd) and WSACleanup() free Winsock memory.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the UDP Server program on Windows.
    Demonstrated connectionless datagram reception and transmission without
    prior connection establishment.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt 1 / PowerShell 1):
      cd Exp-04_UDP-Server

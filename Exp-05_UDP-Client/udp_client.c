@@ -123,7 +123,20 @@ int main() {
      * recvfrom(): Waits for server reply datagram.
      * closesocket() & WSACleanup(): Releases socket and unloads DLL.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Verify UDP Server is running in CMD 1 on port 8081.
+   Step 2: Open CMD 2.
+   Step 3: Navigate to directory:
+           cd Exp-05_UDP-Client
+   Step 4: Compile UDP Client code:
+           gcc udp_client.c -o udp_client.exe -lws2_32
+   Step 5: Run client:
+           .\udp_client.exe
+   Step 6: Observe transmission and reply:
+           "Datagram sent to server."
+           "Server response: Hello from UDP Server!"
+
+4. EXPLANATION / WORKING:
    - Step 1: Initialize Winsock via WSAStartup(MAKEWORD(2,2), &wsa).
    - Step 2: socket() creates UDP socket descriptor.
    - Step 3: Configure servaddr with AF_INET, htons(8081), and inet_addr("127.0.0.1").
@@ -132,12 +145,12 @@ int main() {
    - Step 6: Null-terminate and print server reply.
    - Step 7: closesocket() and WSACleanup() free socket memory.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the UDP Client program on Windows.
    Validated lightweight datagram transmission and response reception without
    connection setup latency.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt 2 / PowerShell 2):
      cd Exp-05_UDP-Client

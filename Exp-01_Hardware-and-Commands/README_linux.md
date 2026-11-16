@@ -101,7 +101,26 @@
      * arp / ip neigh: Displays ARP cache mapping 32-bit IPv4 addresses to 48-bit MAC addresses.
      * nslookup: Queries DNS servers over UDP/TCP port 53 to resolve domain names.
 
-3. EXPLANATION / PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open the Ubuntu Terminal by pressing `Ctrl + Alt + T`.
+   Step 2: Inspect active network interfaces and IP addresses:
+           Run `ip a` (or `ifconfig`). Note the active interface (e.g. eth0, wlan0),
+           IP address, and subnet mask.
+   Step 3: Test local TCP/IP protocol stack:
+           Run `ping -c 4 127.0.0.1` (loopback address). Verify 0% packet loss.
+   Step 4: Test default gateway and public internet connectivity:
+           Run `ping -c 4 8.8.8.8` to evaluate round-trip latency.
+   Step 5: Trace intermediate routing hops:
+           Run `traceroute google.com` to observe path hops and gateway delays.
+           (Install if missing: sudo apt install traceroute)
+   Step 6: Inspect active network sockets:
+           Run `ss -tulnp` or `netstat -tulnp` to list open TCP/UDP listening ports.
+   Step 7: Inspect local ARP resolution cache:
+           Run `arp -a` or `ip neigh` to view MAC addresses resolved on local LAN.
+   Step 8: Perform DNS name resolution:
+           Run `nslookup google.com` to view DNS A-record mapping.
+
+4. EXPLANATION / PROCEDURE:
    - Step 1: Inspect hardware in lab: identify NIC, RJ45 patch cables, switches, routers.
    - Step 2: Run loopback test: ping -c 4 127.0.0.1 to confirm local TCP/IP stack integrity.
    - Step 3: Check host IP configuration: ip a (or ifconfig) to note IP, subnet mask, interface.
@@ -110,12 +129,12 @@
    - Step 6: Inspect active listening sockets: ss -tulnp to display open TCP/UDP ports.
    - Step 7: Inspect address resolution cache: arp -a (or ip neigh) to view IP-to-MAC resolutions.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully identified core networking hardware components and demonstrated
    network diagnostic and configuration commands on Linux. Evaluated round-trip
    time, route hops, socket states, and local ARP/DNS resolution tables.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    * Inspect local IP & interfaces:
      ip a   (OR: ifconfig)

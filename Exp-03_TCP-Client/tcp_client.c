@@ -125,7 +125,20 @@ int main() {
      * send() & recv(): Transmits client request and receives server response.
      * closesocket() & WSACleanup(): Sends FIN segment and unloads Winsock.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Ensure TCP Server is already running in CMD 1 on port 8080.
+   Step 2: Open a second Command Prompt (CMD 2).
+   Step 3: Navigate to directory:
+           cd Exp-03_TCP-Client
+   Step 4: Compile TCP Client code using MinGW GCC:
+           gcc tcp_client.c -o tcp_client.exe -lws2_32
+   Step 5: Run client:
+           .\tcp_client.exe
+   Step 6: Observe output:
+           "Message sent to server."
+           "Server response: Hello from TCP Server!"
+
+4. EXPLANATION / WORKING:
    - Step 1: Initialize Winsock library via WSAStartup(MAKEWORD(2,2), &wsa).
    - Step 2: socket(AF_INET, SOCK_STREAM, 0) allocates client socket descriptor.
    - Step 3: Populate serv_addr with AF_INET, htons(8080), and inet_addr("127.0.0.1").
@@ -134,12 +147,12 @@ int main() {
    - Step 6: recv() reads response ("Hello from TCP Server!") into buffer.
    - Step 7: closesocket(sock) and WSACleanup() terminate connection cleanly.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and tested the TCP Client program on Windows.
    Verified connection establishment to 127.0.0.1:8080, reliable bidirectional
    communication, and clean Winsock teardown.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Method A: Using GCC / MinGW (Command Prompt 2 / PowerShell 2):
      cd Exp-03_TCP-Client

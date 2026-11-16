@@ -139,7 +139,27 @@ int main() {
      * read() / send(): Exchanging stream data with client.
      * close(): Triggers TCP 4-way FIN/ACK connection teardown.
 
-3. EXPLANATION / WORKING:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Terminal (Terminal 1) using `Ctrl + Alt + T`.
+   Step 2: Navigate to directory:
+           cd Exp-02_TCP-Server
+   Step 3: Check GCC compiler availability:
+           gcc --version
+           (If needed: sudo apt install build-essential)
+   Step 4: Compile the TCP Server C program:
+           gcc tcp_server_linux.c -o tcp_server
+   Step 5: Start the server executable:
+           ./tcp_server
+   Step 6: Observe terminal output:
+           Prints "TCP Server listening on port 8080..." and pauses.
+           The server enters accept() blocking state, waiting for client.
+   Step 7: Keep Terminal 1 running and switch to Terminal 2 to run the TCP Client.
+   Step 8: Once client connects, Terminal 1 displays:
+           "Client says: Hello from TCP Client!"
+           "Response sent to client."
+           Server terminates cleanly.
+
+4. EXPLANATION / WORKING:
    - Step 1: socket(AF_INET, SOCK_STREAM, 0) allocates server socket descriptor.
    - Step 2: setsockopt() configures SO_REUSEADDR.
    - Step 3: Populate struct sockaddr_in with AF_INET, htons(8080), and INADDR_ANY.
@@ -149,12 +169,12 @@ int main() {
    - Step 7: send() returns greeting ("Hello from TCP Server!") to client.
    - Step 8: close() terminates new_socket and server_fd.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully implemented and verified the POSIX TCP Server on Linux/Ubuntu.
    Demonstrated socket creation, binding, listening, client handshake acceptance,
    and reliable full-duplex message exchange.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open Terminal (Terminal 1) and navigate to experiment folder:
            cd Exp-02_TCP-Server

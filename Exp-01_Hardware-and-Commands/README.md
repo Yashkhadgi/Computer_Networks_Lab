@@ -101,7 +101,24 @@
      * arp / ip neigh: Displays ARP cache mapping 32-bit IPv4 addresses to 48-bit MAC addresses.
      * nslookup: Queries DNS servers over UDP/TCP port 53 to resolve domain names.
 
-3. EXPLANATION / PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Press Win + R, type `cmd`, and press Enter to open Command Prompt.
+   Step 2: Inspect network adapter configuration:
+           Run `ipconfig /all`. Note the IPv4 address, Subnet Mask, Default Gateway, and MAC address.
+   Step 3: Test TCP/IP stack self-loopback:
+           Run `ping 127.0.0.1`. Verify 0% packet loss.
+   Step 4: Test public internet connectivity:
+           Run `ping 8.8.8.8` to evaluate round-trip latency.
+   Step 5: Trace intermediate routing hops:
+           Run `tracert google.com` to observe path hops and gateway delays.
+   Step 6: Inspect active network sockets:
+           Run `netstat -ano` to list open TCP/UDP listening ports and process IDs.
+   Step 7: Inspect local ARP resolution cache:
+           Run `arp -a` to view IP-to-MAC address mappings on the LAN.
+   Step 8: Perform DNS query:
+           Run `nslookup google.com`.
+
+4. EXPLANATION / PROCEDURE:
    - Step 1: Inspect hardware in lab: identify NIC, RJ45 patch cables, switches, routers.
    - Step 2: Run loopback test: ping -c 4 127.0.0.1 to confirm local TCP/IP stack integrity.
    - Step 3: Check host IP configuration: ip a (or ifconfig) to note IP, subnet mask, interface.
@@ -110,12 +127,12 @@
    - Step 6: Inspect active listening sockets: ss -tulnp to display open TCP/UDP ports.
    - Step 7: Inspect address resolution cache: arp -a (or ip neigh) to view IP-to-MAC resolutions.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully identified core networking hardware components and demonstrated
    network diagnostic and configuration commands on Linux. Evaluated round-trip
    time, route hops, socket states, and local ARP/DNS resolution tables.
 
-5. WINDOWS EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    * Inspect host IP & adapter parameters:
      ipconfig /all

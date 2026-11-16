@@ -114,7 +114,24 @@ int main() {
      * If fewer tokens are available ($tokens < incoming$), packets equal to available
        tokens are sent, and remaining packets are dropped or queued.
 
-3. EXPLANATION / ALGORITHM:
+3. STEPS FOR PERFORMANCE (ON UBUNTU / LINUX):
+   Step 1: Open Terminal (`Ctrl + Alt + T`).
+   Step 2: Navigate to directory:
+           cd Exp-09_Traffic-Shaping
+   Step 3: Compile Token Bucket code:
+           gcc token_bucket_linux.c -o token_bucket
+   Step 4: Run executable:
+           ./token_bucket
+   Step 5: Enter inputs:
+           Bucket capacity: 10
+           Token generation rate: 3
+           Number of time units: 4
+           Enter packets to send per unit: 4, 5, 2, 6
+   Step 6: Observe burst transmission:
+           Packets are transmitted immediately when sufficient tokens exist;
+           remaining tokens are stored up to bucket capacity.
+
+4. EXPLANATION / ALGORITHM:
    - Step 1: Input token bucket capacity, token generation rate ($r$), and time units ($n$).
    - Step 2: Initialize tokens = 0.
    - Step 3: Loop for each time unit $i = 1$ to $n$:
@@ -127,11 +144,11 @@ int main() {
      * Display packets transmitted, dropped, and remaining tokens in the bucket.
    - Step 4: Display simulation completion status.
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully simulated the Token Bucket algorithm in C. Demonstrated how token
    accumulation enables short-term traffic bursts without data loss while
    constraining the long-term average transmission rate to the token generation rate.
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. UBUNTU / LINUX EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    Step 1: Open Terminal and navigate to directory:
            cd Exp-09_Traffic-Shaping

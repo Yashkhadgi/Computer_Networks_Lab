@@ -100,7 +100,18 @@ Response Header: Contains Answer RRs (Resource Records), TTL (Time to Live), and
        RD (Recursion Desired), RA (Recursion Available), RCODE.
      * Question, Answer, Authority, and Additional RR count fields.
 
-3. EXPLANATION / PROCEDURE:
+3. STEPS FOR PERFORMANCE (ON WINDOWS):
+   Step 1: Open Wireshark on Windows; select active network adapter (e.g. Wi-Fi / Ethernet).
+   Step 2: In filter bar, type: `dns || udp.port == 53` and press Enter.
+   Step 3: Open Command Prompt and run forward DNS query:
+           nslookup google.com
+   Step 4: Run authoritative name server query:
+           nslookup -type=ns google.com
+   Step 5: In Wireshark, click red Stop button.
+   Step 6: Inspect DNS Query packet: verify Transaction ID, Flags (0x0100), QNAME.
+   Step 7: Inspect DNS Response packet: verify same Transaction ID, Flags (0x8180), Answer RRs.
+
+4. EXPLANATION / PROCEDURE:
    - Step 1: Run nslookup google.com in Ubuntu terminal to query default DNS resolver.
    - Step 2: Run nslookup -type=ns google.com to query authoritative name servers.
    - Step 3: Launch Wireshark (sudo wireshark) and select active interface (e.g. eth0, wlan0).
@@ -109,12 +120,12 @@ Response Header: Contains Answer RRs (Resource Records), TTL (Time to Live), and
    - Step 6: Inspect Query header (QR=0, RD=1, QNAME, QTYPE=A) and Response header
      (QR=1, RA=1, TTL, Answer RRs with resolved IP).
 
-4. CONCLUSION:
+5. CONCLUSION:
    Successfully performed domain name resolution using nslookup and analyzed DNS
    application layer packets using Wireshark on Linux. Verified the 12-byte header
    format, transaction ID matching, recursion flags, and resource record structure.
 
-5. UBUNTU / LINUX EXECUTION COMMANDS:
+6. WINDOWS EXECUTION COMMANDS:
    -----------------------------------------------------------------------------
    * Run forward DNS lookup:
      nslookup google.com
